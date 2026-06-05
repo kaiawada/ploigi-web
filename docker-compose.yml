@@ -1,0 +1,17 @@
+services:
+  ploigi-web:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env.local
+    # depends_on:
+    #   - ploigi-dev-mock
+
+  # ploigi-dev-mock:
+  #   build: ../ploigi-dev
+  #   ports:
+  #     - "8000:8000"
