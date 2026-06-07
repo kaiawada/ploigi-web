@@ -16,9 +16,9 @@ export type Blog = {
 };
 
 export const getBlog = async () => {
-  const blogList = await client.get<Blog>({
+  const blogList = await client.getList<Blog>({
     endpoint: 'blogs',
   });
 
-  return blogList.body;
+  return blogList.contents;
 };
