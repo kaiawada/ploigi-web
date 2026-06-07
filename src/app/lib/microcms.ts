@@ -22,3 +22,11 @@ export const getBlog = async () => {
 
   return blogList.contents;
 };
+
+export const getBlogDetail = async (contentId: string) => {
+	const detail = await client.get<Blog>({
+		endpoint: 'blogs',
+		contentId: contentId
+	});
+	return detail;
+};
