@@ -20,7 +20,7 @@ export default async function Sorevi({ params }:{ params: Promise<{ id: string }
                 {blog.title}
             </h3>
             
-            <div style={{ marginTop: '20px', lineHeight: '1.8' }} dangerouslySetInnerHTML={{ __html: blog.body }}/>
+            <div className="prose" dangerouslySetInnerHTML={{ __html: blog.body }}/>
         </div>
     );
 }

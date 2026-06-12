@@ -3,25 +3,24 @@ import Link from "next/link";
 
 export default function HomePage() {
 	return(
-		<div className="big-white">
-			<section className="text-gray-600 body-font	">
-				<div className="container mx-auto flex px-5 pt-0 items-center justify-center flex-col">
-					<div className="relative w-full mb-10">
-						<Image
-							className="w-full mb-10 object-cover object-center border border-gray-100"
-							alt="sorevi blog hero"
-							src="/TopImage.png"
-							width={1200}
-							height={500}
-							priority
-						/>
-						<p className="absolute inset-0 flex items-center justify-center text-white text-9xl font-bold">
-							Ploigi
-						</p>
-					</div>
-
+		<div className="bg-white">
+			<section className="text-gray-600 body-font">
+				<div className="relative w-full mb-10">
+					<Image
+						className="w-full object-cover object-center border border-gray-100"
+						alt="sorevi blog hero"
+						src="/TopImage.png"
+						width={1200}
+						height={500}
+						priority
+					/>
+					<p className="absolute inset-0 flex items-center justify-center text-white text-9xl font-bold">
+						Ploigi
+					</p>
+				</div>
+				<div className="max-w-7xl mx-auto flex px-1 pt-0 items-center justify-center flex-col">
 					<h1 className="title-font sm:text-5xl text-4xl mb-4 font-bold text-gray-900 leading-tight">
-						
+
 						Ploigi project
 					</h1>
 					<p className="mb-8 leading-relaxed text-lg text-gray-500 max-w-2xl mx-auto">
