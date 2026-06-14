@@ -1,9 +1,29 @@
 import Link from "next/link";
 import { getBlog } from '@/app/lib/microcms';
+// @ts-ignore
+import Parser from "rss-parser";
+
+type NoteArticle = { title: string; link: string; pubDate: string };
+
+async function getNoteArticles(): Promise<NoteArticle[]> {
+    const parser = new Parser();
+    try {
+        const feed = await parser.parseURL("https://note.com/kaiawada/rss");
+        return feed.items.slice(0, 3).map((item: any) => ({
+            title: item.title || "non title",
+            link: item.link || "#",
+            pubDate: item.puDate ? new Date(item.pubDate).toLocaleDateString('ja-JP') : "",
+        }));
+    } catch (error) {
+        console.error("noteの取得に失敗しました:", error);
+        return [];
+    }
+}
 
 export default async function BlogTop() {
 
     const blogs = await getBlog();
+    const noteArticles = await getNoteArticles();
 
     return(
         <div className="bg-white min-h-screen">
@@ -44,6 +64,40 @@ export default async function BlogTop() {
                                 </Link>
                             </div>
                         </div>
+                    ))}
+                </div>
+                <div className="mt-24 border-t border-gray-100 pt-16">
+                    <div className="flex flex-col text-center w-full mb-12">
+                        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+                            Latest note Articles
+                        </h2>
+                        <p className="text-sm text-gray-400 mt-2">noteで発信中の最新ノート（外部サイト）</p>                        
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {noteArticles?.map((article, index) => (
+                        <a 
+                                href={article.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                key={index}
+                                className="block p-6 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
+                        >
+                            <div>
+                                <span className="text-gray-400 text-xs font-medium block mb-2">
+                                    {article.pubDate}
+                                </span>
+                                <h3 className="text-gray-900 font-bold text-lg leading-snug line-clamp-2 hover:text-indigo-600 transition-colors">
+                                    {article.title}
+                                </h3>
+                            </div>
+                            <div className="text-indigo-500 text-sm font-semibold inline-flex items-center gap-1 mt-6 group pt-4 border-t border-gray-50">
+                                noteで読む
+                                <svg className="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </a>
                     ))}
                 </div>
                 <div className="text-center mt-20">
