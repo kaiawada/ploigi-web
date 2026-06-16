@@ -1,18 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getBlog } from '@/app/lib/microcms';
 // @ts-ignore
 import Parser from "rss-parser";
 
-type NoteArticle = { title: string; link: string; pubDate: string };
+type NoteArticle = { title: string; link: string; pubDate: string; thumbnail: string };
 
 async function getNoteArticles(): Promise<NoteArticle[]> {
-    const parser = new Parser();
+    const parser = new Parser({
+        customFields: { item: [['media:thumbnail', 'thumbnail']] },
+    });
     try {
         const feed = await parser.parseURL("https://note.com/kaiawada/rss");
         return feed.items.slice(0, 3).map((item: any) => ({
             title: item.title || "non title",
             link: item.link || "#",
-            pubDate: item.puDate ? new Date(item.pubDate).toLocaleDateString('ja-JP') : "",
+            pubDate: item.pubDate ? new Date(item.pubDate).toLocaleDateString('ja-JP') : "",
+            thumbnail: item.thumbnail || "",
         }));
     } catch (error) {
         console.error("noteの取得に失敗しました:", error);
@@ -42,15 +46,32 @@ export default async function BlogTop() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {blogs.map((blog) => (
                         <div key={blog.id} className="bg-white border border-gray-200/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between h-full">
+                            {blog.headerImage && (
+                                <Link href={`/blogs/sorevi/${blog.id}`} className="relative block h-48">
+                                    <Image
+                                        src={blog.headerImage.url}
+                                        alt={blog.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                                        <h2 className="text-white text-lg font-bold leading-snug line-clamp-2">
+                                            {blog.title}
+                                        </h2>
+                                    </div>
+                                </Link>
+                            )}
                             <div className="p-6 flex-grow">
                                 <p className="text-gray-400 text-xs font-medium mb-3">
                                     {new Date(blog.publishedAt).toLocaleDateString('ja-JP')}
                                 </p>
-                                <h2 className="text-xl font-bold text-gray-900 mb-3 leading-snug hover:text-indigo-600 transition-colors">  
-                                    <Link href={`/blogs/sorevi/${blog.id}`}>
-                                        {blog.title}
-                                    </Link>
-                                </h2>
+                                {!blog.headerImage && (
+                                    <h2 className="text-xl font-bold text-gray-900 mb-3 leading-snug hover:text-indigo-600 transition-colors">
+                                        <Link href={`/blogs/sorevi/${blog.id}`}>
+                                            {blog.title}
+                                        </Link>
+                                    </h2>
+                                )}
                                 <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">
                                     {blog.body ? blog.body.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : '本文がありません'}
                                 </p>
@@ -76,14 +97,24 @@ export default async function BlogTop() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {noteArticles?.map((article, index) => (
-                        <a 
+                        <a
                                 href={article.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 key={index}
-                                className="block p-6 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
+                                className="block bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between overflow-hidden"
                         >
-                            <div>
+                            {article.thumbnail && (
+                                <div className="relative h-48">
+                                    <Image
+                                        src={article.thumbnail}
+                                        alt={article.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            )}
+                            <div className="p-6">
                                 <span className="text-gray-400 text-xs font-medium block mb-2">
                                     {article.pubDate}
                                 </span>

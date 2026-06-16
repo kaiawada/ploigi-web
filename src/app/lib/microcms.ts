@@ -13,6 +13,11 @@ export type Blog = {
   revisedAt: string;
   title: string;
   body: string;
+  headerImage?: {
+    url: string;
+    height: number;
+    width: number;
+  };
 };
 
 export const getBlog = async () => {
