@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getBlog } from '@/app/lib/microcms';
+import { getBlog } from '@/lib/microcms';
 // @ts-ignore
 import Parser from "rss-parser";
 

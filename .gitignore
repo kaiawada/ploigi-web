@@ -43,7 +43,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# skills
+/.agents
+/.claude
+/.windsurf
+/skills-lock.json
 # other
 /docs
 AGENTS.md
 CLAUDE.md
+
+/src/generated/prisma

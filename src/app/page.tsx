@@ -25,7 +25,7 @@ export default function HomePage() {
 					</h1>
 					<p className="mb-8 leading-relaxed text-lg text-gray-500 max-w-2xl mx-auto">
 						Ploigi projectは場所に固定されることなく環境を制御するためのシステムです。
-						ここではPloigi projectの開発とその開発者の活動について記したSoreviブログを公開しています。
+						Ploigi projectの開発とその開発者の活動についてブログにて公開しています。
 					</p>
 					<div className="flex justify-center gap-4">
 

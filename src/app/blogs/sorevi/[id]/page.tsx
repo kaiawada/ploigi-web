@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getBlogDetail } from "@/app/lib/microcms";
+import { getBlogDetail } from "@/lib/microcms";
 
 export default async function Sorevi({ params }:{ params: Promise<{ id: string }> }) {
     const { id } = await params;
