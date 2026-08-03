@@ -43,7 +43,7 @@ export async function loginAction(formData: FormData) {
   }
   
   // セッションを作成してCookieに保存
-  const token = await createSession(user.id, user.email)
+  const token = await createSession(user.id, user.email, user.role)
   await setSessionCookie(token)
   
   // ダッシュボードにリダイレクト

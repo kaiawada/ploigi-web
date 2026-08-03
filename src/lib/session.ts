@@ -6,8 +6,8 @@ const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
 const SESSION_COOKIE_NAME = 'session'
 
 //トークン発行
-export async function createSession(userID: number, email: string){
-    const token = await new SignJWT({ userID, email })
+export async function createSession(userID: number, email: string, role: string) {
+    const token = await new SignJWT({ userID, email, role })
         .setProtectedHeader({ alg: 'HS256' })
         .setExpirationTime('24h')
         .sign(secret)
@@ -47,5 +47,15 @@ export async function getSessionCookie() {
 export async function clearSessionCookie() {
     const cookieStore = await cookies()
     cookieStore.delete(SESSION_COOKIE_NAME)
+}
+
+//proxy.ts用
+export async function verifySessionForProxy(token: string){
+    try{
+        const verified = await jwtVerify(token, secret)
+        return verified.payload as { userID: number, email: string, role: string }
+    }   catch (error) {
+        return null
+    }
 }
 

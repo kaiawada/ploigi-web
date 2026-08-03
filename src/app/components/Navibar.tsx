@@ -41,12 +41,12 @@ export default function Navibar() {
               </Link>
             ))}
           </nav>
-          <button className="inline-flex items-center text-gray-500 hover:text-gray-900 hover:underline text-base">
+          <Link href="/login" className="inline-flex items-center text-gray-500 hover:text-gray-900 hover:underline text-base">
             Login
             <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </header>
