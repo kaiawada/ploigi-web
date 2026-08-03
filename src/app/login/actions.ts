@@ -47,5 +47,10 @@ export async function loginAction(formData: FormData) {
   await setSessionCookie(token)
   
   // ダッシュボードにリダイレクト
-  redirect('/dashboard')
+  if (user.role === 'admin') {
+    redirect('/admin')
+  }else{
+    redirect('/dashboard')
+  }
+
 }
