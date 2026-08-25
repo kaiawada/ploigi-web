@@ -12,7 +12,7 @@ async function getNoteArticles(): Promise<NoteArticle[]> {
     });
     try {
         const feed = await parser.parseURL("https://note.com/kaiawada/rss");
-        return feed.items.slice(0, 3).map((item: any) => ({
+        return feed.items.map((item: any) => ({
             title: item.title || "non title",
             link: item.link || "#",
             pubDate: item.pubDate ? new Date(item.pubDate).toLocaleDateString('ja-JP') : "",
@@ -37,8 +37,8 @@ export default async function BlogTop() {
                         Blogs
                     </h1>
                     <p className="max-w-2xl mx-auto leading-relaxed text-base text-gray-500">
-                        Ploigi projectの開発プロセスやわからないところを調べた際の学習ノートなど、
-                        日々のだらだらと積み重ねていったものがSoreviブログです。いつか誰かの役に立つことができたり、
+                        Ploigi projectの開発プロセスやその過程での学習ノートなど、
+                        日々のだらだらと積み重ねていったものをブログとして残しています。いつか誰かの役に立つことができたり、
                         そんなことになったらいいのになそんなエンジニアになれたらと思い公開していきます。
                     </p>
                 </div>

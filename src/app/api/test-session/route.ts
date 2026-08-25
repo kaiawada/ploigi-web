@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   try {
     // 1. セッショントークンを発行
-    const token = await createSession(1, 'test@example.com')
+    const token = await createSession(1, 'test@example.com', 'user')
     console.log('Generated token:', token)
 
     // 2. トークンを検証
